@@ -1,13 +1,9 @@
-import mongoose, { InferSchemaType, Schema, model } from "mongoose";
-
-const AutoIncrementFactory = require('mongoose-sequence');
+import { InferSchemaType, Schema, model } from "mongoose";
 
 const podcastSchema = new Schema({
-    id: {type: Number, unique: true, min: 1, required: true},
     title: { type: String },
     description: { type: String }
-});
-podcastSchema.plugin(Auto)
+}, {timestamps: true});
 
 type Podcast = InferSchemaType<typeof podcastSchema>;
 export default model<Podcast>("Podcast", podcastSchema);
