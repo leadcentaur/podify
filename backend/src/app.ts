@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { Request, Response, NextFunction } from "express";
 import podcastRoutes from "./routes/podcasts";
+import spotifyRoutes from "./routes/spotify"
 import morgan from "morgan";
 import createHttpError, {isHttpError} from "http-errors";
 import env from "./util/validateEnv";
@@ -12,6 +13,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/api/podcasts", podcastRoutes);
+app.use("/api/spotify", spotifyRoutes)
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));

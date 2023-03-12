@@ -3,6 +3,7 @@ import createHttpError from "http-errors";
 import mongoose, { mongo, Schema } from "mongoose";
 import podcast from "../models/podcast";
 import PodcastModel from "../models/podcast";
+import getToken from "../api/token";
 
 export const getPodcasts: RequestHandler = async (req, res, next) => {
     try {
@@ -22,13 +23,14 @@ export const getPodcast: RequestHandler = async (req, res, next) => {
     const podcastId = req.params.podcastId;
     try {
         if (!mongoose.isValidObjectId(podcastId)) {
-            throw createHttpError(400, "Invalid note ID");
+            throw createHttpError(400, "Invalid podcast ID");
         }
 
         const podcast = await PodcastModel.findById(podcastId).exec();
         if (!podcast) {
             throw createHttpError(404, "Podcast not found");
         }
+        
         res.status(200).json(podcast);
 
     } catch (error) {
