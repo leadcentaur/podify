@@ -5,7 +5,6 @@ import podcastRoutes from "./routes/podcasts";
 import spotifyRoutes from "./routes/spotify"
 import morgan from "morgan";
 import createHttpError, {isHttpError} from "http-errors";
-import env from "./util/validateEnv";
 // import MongoStore from "connect-mongo";
 
 const app = express()

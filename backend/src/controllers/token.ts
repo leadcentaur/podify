@@ -1,6 +1,5 @@
 import env from "../util/validateEnv";
 import axios from "axios";
-import createHttpError from "http-errors";
 import { response } from "express";
 
 interface TokenData {
@@ -45,7 +44,5 @@ export async function getToken() {
     } catch {
         console.error(response);
     }
-
 }
-
 export default getToken;

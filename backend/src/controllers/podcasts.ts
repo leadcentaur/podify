@@ -1,9 +1,8 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import mongoose, { mongo, Schema } from "mongoose";
-import podcast from "../models/podcast";
+import mongoose from "mongoose";
 import PodcastModel from "../models/podcast";
-import getToken from "../api/token";
+
 
 export const getPodcasts: RequestHandler = async (req, res, next) => {
     try {

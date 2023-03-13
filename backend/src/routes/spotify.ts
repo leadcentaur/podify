@@ -1,8 +1,8 @@
 import express from "express";
-import * as SpotifyController from "../api/token";
+import * as SearchController from "../controllers/search"
 
 const router = express.Router();
 
-// router.get("/", SpotifyController.getToken);
+router.get("/search?q=:query", SearchController.search);
 
 export default router;
