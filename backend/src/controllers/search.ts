@@ -2,7 +2,7 @@ import axios from "axios";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import getToken from "./token";
-import { query, value validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 
 interface ImageObject {
     height: number,
@@ -31,18 +31,14 @@ interface QueryResponse {
 export const search: RequestHandler = async (req, res, next) => {
     try {
         
-        
+        const searchQuery = req.query.query;
         const queryResponse: QueryItem[] = []
-        const searchQuery = query('q').isString();
-        console.log(search.name)
 
-        if (searchQuery) {
-            console.log(searchQuery);
-        } else {
-            throw createHttpError(404, "<Replace with error handling>");
+        const errors = validationResult(req);
+        if (!errors.isEmpty() || !searchQuery) {
+            throw createHttpError(404, "bad search query");
         }
 
-        // what happens if 
         const testingToken = await getToken();
         if (!testingToken) {
             // this means we failed to get the token, no need to tell the user that.
@@ -71,8 +67,11 @@ export const search: RequestHandler = async (req, res, next) => {
                 queryResponse.push(item);
             }
         });
+        
+      if (!Object.keys(queryResponse).length) { return res.status(404).json("No results found."); } else {
+        return res.status(200).json(queryResponse);
+      }
 
-        res.status(200).json(queryResponse);
     } catch (error) {
         next(error)
     }
