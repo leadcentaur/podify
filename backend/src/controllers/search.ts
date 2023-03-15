@@ -1,6 +1,8 @@
 import axios from "axios";
 import { RequestHandler } from "express";
+import createHttpError from "http-errors";
 import getToken from "./token";
+import { query, value validationResult } from 'express-validator';
 
 interface ImageObject {
     height: number,
@@ -26,20 +28,29 @@ interface QueryResponse {
     type: string,
 }
 
-
 export const search: RequestHandler = async (req, res, next) => {
-
     try {
-
+        
+        
         const queryResponse: QueryItem[] = []
-        const paramsBlock = req.url.split("?")[1];
-        console.log("The params block: ", paramsBlock);
+        const searchQuery = query('q').isString();
+        console.log(search.name)
 
-        const testingToken = "BQCyLpQHhsyGYBdMwiBRflUZ459FAykm0YqZNVKXJH67CjRwTZfBjGnCZUFJXOLffrvCo8BwzoZ8vHApRneudIN-csMPiZizKGjLPZ-f_COhWRuSQPxO2cXYNg";
-        const search_query = "huber";
+        if (searchQuery) {
+            console.log(searchQuery);
+        } else {
+            throw createHttpError(404, "<Replace with error handling>");
+        }
+
+        // what happens if 
+        const testingToken = await getToken();
+        if (!testingToken) {
+            // this means we failed to get the token, no need to tell the user that.
+            throw createHttpError(404, "<Replace with error handling>");
+        }
 
         const response = await axios.request({
-            url: `https://api.spotify.com/v1/search?q=${search_query}&type=show&market=ES`,
+            url: `https://api.spotify.com/v1/search?q=${searchQuery}&type=show&market=ES`,
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + testingToken,
@@ -50,7 +61,7 @@ export const search: RequestHandler = async (req, res, next) => {
 
         const data = response.data.shows.items;
         data.forEach((element: QueryResponse) => {
-            if(element.type == "show") {
+            if (element.type == "show") {
                 const item = {
                     name: element.name,
                     iurl: element.images[0].url,

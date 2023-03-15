@@ -39,7 +39,7 @@ export async function getToken() {
         if (response.status == 200) {
             return response.data.access_token;
         } else {
-            console.log("Failed to fetch token data from app.")
+            return null;
         }
     } catch {
         console.error(response);
