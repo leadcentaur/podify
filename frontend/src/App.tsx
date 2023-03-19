@@ -1,11 +1,14 @@
-import React from 'react';
+//! Imports
+import BookData from "./data.json"
+//! Components
+import SearchBar from "./components/SearchBar";
+//! Styles
+import { Wrapper } from "./App.styles"
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
-}
+const App: React.FC<{}> = (): JSX.Element => (
+  <Wrapper>
+    <SearchBar/>
+  </Wrapper>
+)
 
 export default App;

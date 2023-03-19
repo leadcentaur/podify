@@ -1,9 +1,5 @@
-import axios from "axios";
-import { RequestHandler } from "express";
-import createHttpError from "http-errors";
-import getToken from "./token";
-import { validationResult } from 'express-validator';
-
+import { ConflictError, UnauthorizedError } from "../errors/httpErrors";
+import { Axios } from "axios"
 interface ImageObject {
     height: number,
     url: string,
@@ -28,22 +24,13 @@ interface QueryResponse {
     type: string,
 }
 
-export const search: RequestHandler = async (req, res, next) => {
+export async function search(query: string) {
+    
     try {
         
-        const searchQuery = req.query.query;
         const queryResponse: QueryItem[] = []
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty() || !searchQuery) {
-            throw createHttpError(404, "bad search query");
-        }
-
-        const testingToken = await getToken();
-        if (!testingToken) {
-            // this means we failed to get the token, no need to tell the user that.
-            throw createHttpError(404, "<Replace with error handling>");
-        }
+        const testingToken = "BQAmM12nLbu-4J8_j6TO4rpiuQEq9-_Mximjg41pn2krFVY4kFn5xvJcQHqLl7Gnsi4xUWSPp1DYOS6GyNf0JpSSnmnTZf1zIDDLGUmozDc-te27N54QekjfiA"
 
         const response = await axios.request({
             url: `https://api.spotify.com/v1/search?q=${searchQuery}&type=show&market=ES`,
