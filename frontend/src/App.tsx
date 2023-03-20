@@ -6,9 +6,11 @@ import SearchBar from "./components/SearchBar";
 import { Wrapper } from "./App.styles"
 
 const App: React.FC<{}> = (): JSX.Element => (
-  <Wrapper>
+
+  <div className="flex flex-col h-screen my-auto items-center bgimg bg-cover">
     <SearchBar/>
-  </Wrapper>
+  </div>
+
 )
 
 export default App;
