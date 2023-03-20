@@ -1,6 +1,5 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Wrapper, DataResult } from './SearchBar.styles';
 import type { DataType } from '../utils/utils';
 import { MdClose } from "react-icons/md";
 import { QueryItem, search } from '../api/search_api';
@@ -44,8 +43,9 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
 
     return (
     <div className='flex flex-col h-screen my-auto items-center bgimg bg-cover w-full'>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} className='object-cover  rounded-t-lg'>
             <input
+            className='m-3 bg-white border border-gray-200 rounded-lg p-2 shadow md:flex-row '
                 id="userSearchQuery"
                 type="text"
                 placeholder="Enter a podcast name"
@@ -53,7 +53,7 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
                 onChange={handleChange}
                 ref={inputRef}
             />
-            <button type="submit">Submit</button>
+            <button type="submit">Search</button>
         
         </form>
         
