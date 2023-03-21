@@ -1,4 +1,5 @@
 import axios from "axios";
+import getToken from "../../../backend/src/controllers/token";
 
 interface ImageObject {
     height: number,
@@ -30,8 +31,7 @@ export async function search(query: string) {
     try {
         
         const queryResponse: QueryItem[] = []
-
-        const testingToken = "BQDbwMhzM628f-AeLeWYD0-VT1xs-Oly2TqimFDMRBZmJZrKC4xYxjLuyKw9XrXRXUYD9T8-wGBd4IGfPbRC2fG0hGU8SZ7M_OOcWZMvHUxK3mgxoK_oHhRlnw"
+        const testingToken = "BQB28Y2lZv5zunTnKvoZJAikvRfagozGKPbrtQAKZA4Dc-qF1SCVEs7abc6irRRzpM9FGe8jN1uMo1rRuWqAXH3ScU5EcYOYDMNjTlbdvAjejF637Cau38CRHQ";
 
         const response = await axios.request({
             url: `https://api.spotify.com/v1/search?q=${query}&type=show&market=ES`,

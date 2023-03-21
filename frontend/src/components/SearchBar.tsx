@@ -42,10 +42,10 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
     }
 
     return (
-    <div className='flex flex-col h-screen my-auto items-center bgimg bg-cover w-full'>
-        <form onSubmit={handleFormSubmit} className='object-cover  rounded-t-lg'>
+    <div>
+        <form onSubmit={handleFormSubmit} className="flex items-center content-center">
             <input
-            className='m-3 bg-white border border-gray-200 rounded-lg p-2 shadow md:flex-row '
+            className='w-3/4 m-3 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg '
                 id="userSearchQuery"
                 type="text"
                 placeholder="Enter a podcast name"
@@ -53,8 +53,6 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
                 onChange={handleChange}
                 ref={inputRef}
             />
-            <button type="submit">Search</button>
-        
         </form>
         
             {responseData.map((item: any, idx: number) => (
