@@ -10,9 +10,6 @@ interface CardProps {
 }
 
 const PodcastCard = ({name, id, iurl, desc, surl}: CardProps) => {
-
-    console.log("Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.".length);
-
     const truncateDescription = (description: string) => {
         return description.length > 103 ? description.substring(0, 110) + "..." : description;
     }

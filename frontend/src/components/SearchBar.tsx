@@ -2,8 +2,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { DataType } from '../utils/utils';
 import { MdClose } from "react-icons/md";
-import { QueryItem, search } from '../api/search_api';
+import { search } from '../api/search_api';
 import PodcastCard from './PodcastCard';
+import { UnauthorizedError } from '../errors/httpErrors';
+import { QueryItem, QueryResponse } from '../interfaces/interfaces';
 
 interface FormElements extends HTMLFormControlsCollection {
     //the input field needs a form tag with name userSearchQuery
@@ -18,6 +20,7 @@ interface YourFormElement extends HTMLFormElement {
 const SearchBar: React.FC<{}> = (): JSX.Element => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [responseData, setResponseData] = useState<any>([]);
+    const [resultsError, setResultsError] = useState(false);
 
     //makes it so the cursor is already selected on the searchbar
     const inputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
@@ -31,9 +34,16 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
     const handleFormSubmit = async (e: React.FormEvent<YourFormElement>): Promise<any> => {
         e.preventDefault();
         const search_query: string = e.currentTarget.elements.userSearchQuery.value;
-        const object = await search(search_query);
-        clearInput();
-        setResponseData(object);
+        try {
+            const response = await search(search_query);
+            console.log(response);
+
+            setResponseData(response);
+            setResultsError(false);
+        } catch (error) {
+            console.error("Failed to retrive podcast results.")
+            setResultsError(true);
+        }
     }
     
     const clearInput = (): void => {
@@ -43,9 +53,9 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
 
     return (
     <div>
-        <form onSubmit={handleFormSubmit} className="flex items-center content-center">
+        <form onSubmit={handleFormSubmit}>
             <input
-            className='w-3/4 m-3 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg '
+            className='m-3 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg'
                 id="userSearchQuery"
                 type="text"
                 placeholder="Enter a podcast name"
@@ -54,10 +64,12 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
                 ref={inputRef}
             />
         </form>
-        
-            {responseData.map((item: any, idx: number) => (
+            {!resultsError && responseData.map((item: any, idx: number) => (
                 <PodcastCard name={item.name} iurl={item.iurl} id={item.id} desc={item.desc} surl={item.surl}/>
             ))}
+
+            {resultsError && <h1>Error</h1>}
+
         </div>
 
     );
