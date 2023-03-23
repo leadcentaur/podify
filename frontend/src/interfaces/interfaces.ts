@@ -23,3 +23,12 @@ export interface QueryResponse {
     type: string,
     external_urls?: {spotify: string}
 }
+
+export interface FormElements extends HTMLFormControlsCollection {
+    //the input field needs a form tag with name userSearchQuery
+    userSearchQuery: HTMLInputElement
+}
+
+export interface YourFormElement extends HTMLFormElement {
+   readonly elements: FormElements
+}

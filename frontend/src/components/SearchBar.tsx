@@ -5,16 +5,8 @@ import { MdClose } from "react-icons/md";
 import { search } from '../api/search_api';
 import PodcastCard from './PodcastCard';
 import { UnauthorizedError } from '../errors/httpErrors';
-import { QueryItem, QueryResponse } from '../interfaces/interfaces';
-
-interface FormElements extends HTMLFormControlsCollection {
-    //the input field needs a form tag with name userSearchQuery
-    userSearchQuery: HTMLInputElement
-}
-
-interface YourFormElement extends HTMLFormElement {
-   readonly elements: FormElements
-}
+import { QueryItem, QueryResponse, YourFormElement } from '../interfaces/interfaces';
+import ErrorView from './ErrorView';
 
 
 const SearchBar: React.FC<{}> = (): JSX.Element => {
@@ -52,10 +44,10 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
     }
 
     return (
-    <div>
-        <form onSubmit={handleFormSubmit}>
+    <div className='flex flex-col items-center'>
+        <form onSubmit={handleFormSubmit} className='flex flex-col w-2/5'>
             <input
-            className='m-3 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg'
+            className='m-5 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg'
                 id="userSearchQuery"
                 type="text"
                 placeholder="Enter a podcast name"
@@ -68,7 +60,7 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
                 <PodcastCard name={item.name} iurl={item.iurl} id={item.id} desc={item.desc} surl={item.surl}/>
             ))}
 
-            {resultsError && <h1>Error</h1>}
+            {resultsError && <ErrorView/> }
 
         </div>
 

@@ -3,11 +3,11 @@ import axios from "axios";
 import getToken from "../../../backend/src/controllers/token";
 import { QueryItem, QueryResponse } from "../interfaces/interfaces";
 
-
+//search api
 export async function search(query: string) {
 
     const queryResponse: QueryItem[] = []
-    const testingToken = "BQBnKi1mZq_WkFOHCuSffzZC6qSeTTMJpU_wCxLRD4SyELtRUyZtanghfxsC9L8Z2SX8jTRH4cWY7IhFY4K-KNuP0ZtSrqztT3KYSvOkCPUvShKbytfBCQLTkw";
+    const testingToken = "BQBYQKn6Z2NWt6f4oNnfLjTljZRVZEkOCgAM_FCp5mgk_ZDh7Rjf9lE2RpP-vkdVrFzyOlQArEy0gANEZPLHQ5Qww0jevf0pPNDTBvfLMizhPxHbiqbW8fjGNA"
 
     const response = await axios.request({
         url: `https://api.spotify.com/v1/search?q=${query}&type=show&market=ES`,
