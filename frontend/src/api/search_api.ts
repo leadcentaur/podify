@@ -7,7 +7,7 @@ import { QueryItem, QueryResponse } from "../interfaces/interfaces";
 export async function search(query: string) {
 
     const queryResponse: QueryItem[] = []
-    const testingToken = "BQBYQKn6Z2NWt6f4oNnfLjTljZRVZEkOCgAM_FCp5mgk_ZDh7Rjf9lE2RpP-vkdVrFzyOlQArEy0gANEZPLHQ5Qww0jevf0pPNDTBvfLMizhPxHbiqbW8fjGNA"
+    const testingToken = "BQAoRfRHCb14lO8KkKa6LnyQH4IBeieBYqIZstdg7p4feMlBRYXCZz9vsYjAQcEwQ-p9X-iH8m_Qd0hpXoJFUloBYjY8y6DWkxtHTUpbDqb6Kjb0GUNU2dClow";
 
     const response = await axios.request({
         url: `https://api.spotify.com/v1/search?q=${query}&type=show&market=ES`,

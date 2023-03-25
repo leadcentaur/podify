@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react"
+import {ClipLoader} from "react-spinners";
 
 export default function ErrorView() {
     return (
