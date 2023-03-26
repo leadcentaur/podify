@@ -28,52 +28,52 @@ interface QueryResponse {
     type: string,
 }
 
-export const search: RequestHandler = async (req, res, next) => {
-    try {
+// export const search: RequestHandler = async (req, res, next) => {
+//     try {
         
-        const searchQuery = req.query.query;
-        const queryResponse: QueryItem[] = []
+//         const searchQuery = req.query.query;
+//         const queryResponse: QueryItem[] = []
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty() || !searchQuery) {
-            throw createHttpError(404, "bad search query");
-        }
+//         const errors = validationResult(req);
+//         if (!errors.isEmpty() || !searchQuery) {
+//             throw createHttpError(404, "bad search query");
+//         }
 
-        const testingToken = await getToken();
-        if (!testingToken) {
-            // this means we failed to get the token, no need to tell the user that.
-            throw createHttpError(404, "<Replace with error handling>");
-        }
+//         const testingToken = await getToken();
+//         if (!testingToken) {
+//             // this means we failed to get the token, no need to tell the user that.
+//             throw createHttpError(404, "<Replace with error handling>");
+//         }
 
-        const response = await axios.request({
-            url: `https://api.spotify.com/v1/search?q=${searchQuery}&type=show&market=ES`,
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + testingToken,
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }        
-        })
+//         const response = await axios.request({
+//             url: `https://api.spotify.com/v1/search?q=${searchQuery}&type=show&market=ES`,
+//             method: "GET",
+//             headers: {
+//                 "Authorization": "Bearer " + testingToken,
+//                 "Accept": "application/json",
+//                 "Content-Type": "application/json"
+//             }        
+//         })
 
-        const data = response.data.shows.items;
-        data.forEach((element: QueryResponse) => {
-            if (element.type == "show") {
-                const item = {
-                    name: element.name,
-                    iurl: element.images[0].url,
-                    id: element.id,
-                    type: element.type
-                } as QueryItem
-                queryResponse.push(item);
-            }
-        });
+//         const data = response.data.shows.items;
+//         data.forEach((element: QueryResponse) => {
+//             if (element.type == "show") {
+//                 const item = {
+//                     name: element.name,
+//                     iurl: element.images[0].url,
+//                     id: element.id,
+//                     type: element.type
+//                 } as QueryItem
+//                 queryResponse.push(item);
+//             }
+//         });
         
-      if (!Object.keys(queryResponse).length) { 
-            return res.status(404).json("No results found."); } else {
-        return res.status(200).json(queryResponse);
-      }
+//       if (!Object.keys(queryResponse).length) { 
+//             return res.status(404).json("No results found."); } else {
+//         return res.status(200).json(queryResponse);
+//       }
 
-    } catch (error) {
-        next(error)
-    }
-}
+//     } catch (error) {
+//         next(error)
+//     }
+// }
