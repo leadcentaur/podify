@@ -43,6 +43,8 @@ async function fetchApiData() {
             "Content-Type": "application/x-www-form-urlencoded"
         }        
     });
+
+    console.log("Request sent to the API");
     return response.data;
 }
 

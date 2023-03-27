@@ -8,6 +8,7 @@ import { UnauthorizedError } from '../errors/httpErrors';
 import {ClipLoader} from "react-spinners";
 import { QueryItem, QueryResponse, YourFormElement } from '../interfaces/interfaces';
 import ErrorView from './ErrorView';
+import { Axios, isAxiosError } from 'axios';
 
 
 const SearchBar: React.FC<{}> = (): JSX.Element => {
@@ -30,11 +31,15 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
         const search_query: string = e.currentTarget.elements.userSearchQuery.value;
         try {
             setResultsLoading(true);
-            const response = await search(search_query);            
+            const response = await search(search_query);
+        
             setResponseData(response);
             setResultsError(false);
         } catch (error) {
-            console.error("Failed to retrive podcast results.")
+            if (isAxiosError(error)) {
+                console.error(error.message)
+            }
+
             setResultsLoading(true);
             setResultsError(true);
         } finally {
