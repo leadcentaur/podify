@@ -8,4 +8,5 @@ export default cleanEnv(process.env, {
     SPOTIFY_CLIENT_ID: str(),
     SPOTIFY_CLIENT_SECRET: str(),
     SPOTIFY_TOKEN_URL: url(),
+    REDIS_TOKEN_KEY: str(),
 })

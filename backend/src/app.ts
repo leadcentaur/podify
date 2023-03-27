@@ -10,16 +10,27 @@ import * as redis from 'redis';
 import type { RedisClientType } from "@redis/client";
 import session from 'express-session';
 import connectRedis from 'connect-redis';
+import cacheData from "./middleware/caching";
+import { getTokenData } from "./controllers/token";
 
-export let redisClient: RedisClientType;
-(async () => {
-  redisClient = redis.createClient();
+let isReady: boolean;
+let redisClient: RedisClientType;
 
-  redisClient.on("error", (error) => console.error(`Error : ${error}`));
-
-  await redisClient.connect();
-})();
-
+export async function getCache(): Promise<RedisClientType> {
+    if (!isReady) {
+      redisClient = redis.createClient()
+      redisClient.on('error', err => console.log(`Redis Error: ${err}`))
+      redisClient.on('connect', () => console.log('Redis connected'))
+      redisClient.on('reconnecting', () => console.log('Redis reconnecting'))
+      redisClient.on('ready', () => {
+        isReady = true
+        console.log('Redis ready!')
+      })
+      await redisClient.connect()
+    }
+    return redisClient
+}
+  
 const app = express()
 
 app.use(morgan("dev"));
@@ -27,6 +38,7 @@ app.use(express.json());
 
 app.use("/api/podcasts", podcastRoutes);
 app.use("/api/spotify", spotifyRoutes)
+app.use("/api/token", cacheData, getTokenData)
 
 
 app.use((req, res, next) => {

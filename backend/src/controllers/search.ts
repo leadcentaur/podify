@@ -1,7 +1,6 @@
 import axios from "axios";
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import getToken from "./token";
 import { validationResult } from 'express-validator';
 
 interface ImageObject {

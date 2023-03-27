@@ -8,34 +8,6 @@ import type { RedisClientType } from "redis";
 
 const port = env.PORT;
 
-let redisClient: RedisClientType;
-(async () => {
-    redisClient = redis.createClient();
-  
-    redisClient.on("error", (error) => console.error(`Error : ${error}`));
-  
-    await redisClient.connect();
-})();
-
-async function cacheData(req: any, res: any, next: any) {
-    let token;
-    try {
-        const cacheResults = await redisClient.get("access_token");
-        if (cacheResults) {
-            token = JSON.parse(cacheResults);
-            res.send({
-                fromCache: true,
-                data: token,
-            });
-        } else {
-            next();
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(404)
-    }
-}
-
 mongoose.connect(env.MONGO_CONNECTION_STRING)
     .then(() => {
         console.log("Mongoose connted.")

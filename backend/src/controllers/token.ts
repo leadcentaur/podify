@@ -3,6 +3,9 @@ import axios, { AxiosRequestConfig } from "axios";
 import { RequestHandler } from "express";
 import { response } from "express";
 import redisClient from "../app";
+import { getCache } from "../app";
+import { RedisClientType } from "@redis/client";
+import type { SetOptions } from "@redis/client";
 
 interface TokenData {
     access_token: string,
@@ -11,18 +14,21 @@ interface TokenData {
     scope: string,
 }
 
-
-async function fetchTokenData() {
-
-    const client_id = env.SPOTIFY_CLIENT_ID
-    const client_secret = env.SPOTIFY_CLIENT_SECRET;
-    const spotify_token_url = env.SPOTIFY_TOKEN_URL
-    
+function basicAuthEncode(client_id: string, client_secret: string) {
     const auth_string = client_id + ':' + client_secret;
         const encode = (str: string):string => 
             Buffer.from(str, 'binary')
             .toString('base64');
     const auth_base64 = encode(auth_string)
+    return auth_base64;
+}
+
+async function fetchApiData() {
+
+    const client_id = env.SPOTIFY_CLIENT_ID
+    const client_secret = env.SPOTIFY_CLIENT_SECRET;
+    const spotify_token_url = env.SPOTIFY_TOKEN_URL
+    const auth_base64 = basicAuthEncode(client_id, client_secret);
 
     const response = await axios.request<TokenData>({
         url: spotify_token_url,
@@ -37,17 +43,27 @@ async function fetchTokenData() {
             "Content-Type": "application/x-www-form-urlencoded"
         }        
     });
-
-    console.log("getting response: ", response);
     return response.data;
 }
 
-export const getToken: RequestHandler = async (req, res, next) => {
+export const getTokenData: RequestHandler = async (req, res, next) => {
     try {
-        const tokenData = await fetchTokenData();
-        await redisClient.set("access_key", JSON.stringify(tokenData));
+
+        const cache = await getCache();
+        const tokenData = await fetchApiData();
+        const cacheOptions: SetOptions = {
+            EX: tokenData.expires_in as number,
+            NX: true
+        }
+        await cache.set("access_token", JSON.stringify(tokenData), cacheOptions);
+        res.send({
+            fromCache: false,
+            data: tokenData,
+        })
     } catch (error) {
-        next(error);
+        console.log("ERROR IS", error);
+        res.status(404).send("Data unavailable");
     }
 }
-export default getToken;
+
+export default getTokenData;
