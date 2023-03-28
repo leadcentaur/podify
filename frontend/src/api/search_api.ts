@@ -11,6 +11,8 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
         const json = await response.json();
         console.log(json);
         const token = json.data.access_token;
+        console.log(token);
+
         return token
     } else {
         const errorBody = await response.json();
@@ -42,6 +44,7 @@ export async function search(query: string) {
 
     const queryResponse: QueryItem[] = []
     const token = await getAccessToken();
+    console.log("fetched access token " + token);
 
     const response = await axios.request({
         url: `https://api.spotify.com/v1/search?q=${query}&type=show&market=ES`,
@@ -51,7 +54,9 @@ export async function search(query: string) {
             "Accept": "application/json",
             "Content-Type": "application/json"
         }        
-    })
+    });
+
+    
     const data = response.data.shows.items;
         data.forEach((element: QueryResponse) => {
             if (element.type === "show") {
