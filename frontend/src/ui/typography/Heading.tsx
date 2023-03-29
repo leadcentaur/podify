@@ -24,12 +24,30 @@ const levels: Record<HeadingLevel, string> = {
 };
 
 export default function Heading({
-    align,
-    as,
-    children,
-    className='',
-    level,
-    overflow = 'wrap',
-    transform,
-    variant = 'neutral,'
-})
+	align,
+	as,
+	children,
+	className = '',
+	level,
+	overflow = 'wrap',
+	transform,
+	variant = 'neutral',
+}: HeadingProps) {
+	const Tag = (as ?? `h${level}`) as 'h1';
+
+	return (
+		<Tag
+			className={cx(
+				'm-0',
+				align && alignment[align],
+				levels[level],
+				overflows[overflow],
+				transform && transforms[transform],
+				variants[variant],
+				className,
+			)}
+		>
+			{children}
+		</Tag>
+	);
+}

@@ -1,10 +1,9 @@
 import React from 'react';
 import cx from 'clsx';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import Icon from '../../ui/iconography/Icon';
-import Heading from '../../ui/typography/Heading';
+import Icon from '../ui/iconography/Icon';
+import Heading from '../ui/typography/Heading';
 import Text from '../ui/typography/Text';
-import FeatureStatus, { StatusType } from '../FeatureStatus';
 
 export type FeatureTier = 1 | 2 | 3 | 4;
 
@@ -12,7 +11,6 @@ export interface Feature {
 	title: string;
 	icon: IconDefinition;
 	description: React.ReactNode;
-	status?: StatusType;
 }
 
 export interface FeaturesProps {
@@ -89,12 +87,6 @@ export default function Features({ header, description, features, reversed, tier
 											<Heading level={4} className="text-gray-900">
 												{feature.title}
 											</Heading>
-
-											{feature.status && (
-												<p className="m-0">
-													<FeatureStatus status={feature.status} />
-												</p>
-											)}
 
 											<Text className="mt-1 mb-0" variant="muted">
 												{feature.description}
