@@ -9,7 +9,6 @@ export type FeatureTier = 1 | 2 | 3 | 4;
 
 export interface Feature {
 	title: string;
-	icon: IconDefinition;
 	description: React.ReactNode;
 }
 
@@ -35,7 +34,7 @@ const iconColors: Record<FeatureTier, string> = {
 	4: 'text-green-600',
 };
 
-export default function Features({ header, description, features, reversed, tier }: FeaturesProps) {
+function Features({ header, description, features, reversed, tier }: FeaturesProps) {
 	return (
 		<div>
 			<div className="relative py-4 sm:py-5 lg:py-6">
@@ -76,11 +75,7 @@ export default function Features({ header, description, features, reversed, tier
 								{features.map((feature) => (
 									<li key={feature.title} className="flex">
 										<div className="pt-1 w-9 shrink-0 grow-0">
-											<Icon
-												icon={feature.icon}
-												className={cx('text-5xl justify-center flex', iconColors[tier])}
-												style={{ maxWidth: 54 }}
-											/>
+											<p>Icon</p>
 										</div>
 
 										<div className="ml-1">
@@ -102,3 +97,5 @@ export default function Features({ header, description, features, reversed, tier
 		</div>
 	);
 }
+
+export default Features;
