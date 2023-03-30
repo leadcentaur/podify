@@ -9,6 +9,7 @@ import {ClipLoader} from "react-spinners";
 import { QueryItem, QueryResponse, YourFormElement } from '../interfaces/interfaces';
 import ErrorView from './ErrorView';
 import { Axios, isAxiosError } from 'axios';
+import Heading from "../ui/typography/Heading";
 
 
 const SearchBar: React.FC<{}> = (): JSX.Element => {
@@ -53,8 +54,10 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
     }
 
     return (
-    <div className='flex flex-col items-center'>
-        <h1 className='text-3xl text-white font-sans'>Podcast Search</h1>
+    <div className='flex flex-col items-center p-5'>
+        <Heading align='center' className='text-[#1DB954]' level={2}>
+            Spotify Podcast search
+        </Heading>
         <form onSubmit={handleFormSubmit} className='flex flex-col w-2/5'>
             <input
             className='m-5 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg'

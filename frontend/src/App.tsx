@@ -7,7 +7,7 @@ import { useState } from "react";
 import Features from "./components/Features";
 import NavBar from "./global/NavBar";
 
-document.body.style.backgroundColor = "#242f40";
+document.body.style.backgroundColor = "#191414";
 
 
 function App() {
