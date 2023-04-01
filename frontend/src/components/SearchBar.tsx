@@ -55,8 +55,8 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
 
     return (
     <div className='flex flex-col items-center p-5'>
-        <Heading align='center' className='text-[#1DB954]' level={2}>
-            Spotify Podcast search
+        <Heading align='center' level={1}>
+            Spotify Podcast search 🔎
         </Heading>
         <form onSubmit={handleFormSubmit} className='flex flex-col w-2/5'>
             <input
@@ -69,6 +69,7 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
                 ref={inputRef}
             />
         </form>
+        
             {!resultsError && responseData.map((item: any, idx: number) => (
                 <PodcastCard name={item.name} iurl={item.iurl} id={item.id} desc={item.desc} surl={item.surl}/>
             ))}
@@ -76,7 +77,7 @@ const SearchBar: React.FC<{}> = (): JSX.Element => {
   
 
             {resultsError && <ErrorView/> }
-
+            
         </div>
 
     );
