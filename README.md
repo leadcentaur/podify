@@ -1,2 +1,2 @@
 
-This was my first TypeScript Project.
+This was my first TypeScript project.
